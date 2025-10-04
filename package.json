@@ -1,0 +1,26 @@
+{
+  "name": "chat-now",
+  "version": "1.0.0",
+  "description": "Full-Stack Real-Time Chat Application",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "start:frontend": "cd frontend && npm start",
+    "start:backend": "cd backend && npm start",
+    "dev:frontend": "cd frontend && npm start",
+    "dev:backend": "cd backend && npm run dev"
+  },
+  "keywords": [
+    "chat",
+    "real-time",
+    "messaging",
+    "socket.io",
+    "firebase"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

@@ -1,0 +1,60 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection
+    match /users/{userId} {
+      // Allow users to read any user document (needed for searching users)
+      allow get, list: if request.auth != null;
+      
+      // Allow users to create their own document
+      allow create: if request.auth != null && 
+        request.auth.uid == userId;
+      
+      // Allow users to update their own document
+      allow update: if request.auth != null && 
+        request.auth.uid == userId;
+    }
+    
+    // Conversations collection
+    match /conversations/{conversationId} {
+      // Allow users to read conversations they are part of
+      allow get, list: if request.auth != null && 
+        request.auth.uid in resource.data.participants;
+        
+      // Allow users to create conversations
+      allow create: if request.auth != null;
+      
+      // Allow users to update conversations they are part of
+      allow update: if request.auth != null && 
+        request.auth.uid in resource.data.participants;
+        
+      // Allow users to delete conversations they are part of
+      allow delete: if request.auth != null && 
+        request.auth.uid in resource.data.participants;
+    }
+    
+    // Messages collection
+    match /messages/{messageId} {
+      // Allow users to read messages in conversations they are part of
+      allow get, list: if request.auth != null && 
+        exists(/databases/$(database)/documents/conversations/$(resource.data.conversationId)) &&
+        request.auth.uid in get(/databases/$(database)/documents/conversations/$(resource.data.conversationId)).data.participants;
+        
+      // Allow users to create messages in conversations they are part of
+      allow create: if request.auth != null && 
+        exists(/databases/$(database)/documents/conversations/$(request.resource.data.conversationId)) &&
+        request.auth.uid in get(/databases/$(database)/documents/conversations/$(request.resource.data.conversationId)).data.participants;
+        
+      // Allow users to update their own messages OR update status/read status if they are a participant
+      allow update: if request.auth != null && (
+        request.auth.uid == resource.data.senderId ||
+        (request.auth.uid in get(/databases/$(database)/documents/conversations/$(resource.data.conversationId)).data.participants &&
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'readAt']))
+      );
+        
+      // Allow users to delete their own messages
+      allow delete: if request.auth != null && 
+        request.auth.uid == resource.data.senderId;
+    }
+  }
+}
