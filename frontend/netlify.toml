@@ -1,0 +1,17 @@
+[build]
+  command = "npm run build"
+  publish = "build"
+  base = "/"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[functions]
+  directory = "netlify/functions"
+
+[dev]
+  command = "npm start"
+  port = 3000
+  targetPort = 3000

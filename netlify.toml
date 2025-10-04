@@ -1,0 +1,15 @@
+[build]
+  command = "echo 'No build command needed for root'"
+  publish = "."
+
+[[redirects]]
+  from = "/api/*"
+  to = "http://localhost:5000/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/socket.io/*"
+  to = "http://localhost:5000/socket.io/:splat"
+  status = 200
+  force = true
