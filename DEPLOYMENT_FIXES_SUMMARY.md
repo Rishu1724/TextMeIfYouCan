@@ -6,8 +6,9 @@ This document summarizes all the changes made to fix deployment issues in the Ch
 
 1. **Environment Variables**: Placeholder values in [.env.production](file:///C:/Users/rishu/OneDrive/Desktop/Chat-now/frontend/.env.production) file
 2. **Proxy Configuration**: [netlify.toml](file:///C:/Users/rishu/OneDrive/Desktop/Chat-now/netlify.toml) file pointing to localhost instead of actual backend URL
-3. **Documentation**: Incomplete deployment instructions
-4. **Monitoring**: No health check documentation
+3. **Routing Issues**: SPA routing not properly configured for Netlify
+4. **Documentation**: Incomplete deployment instructions
+5. **Monitoring**: No health check documentation
 
 ## 🛠️ Fixes Implemented
 
@@ -32,15 +33,25 @@ This document summarizes all the changes made to fix deployment issues in the Ch
 - [README.md](file:///C:/Users/rishu/OneDrive/Desktop/Chat-now/README.md)
 - [DEPLOYMENT_GUIDE.md](file:///C:/Users/rishu/OneDrive/Desktop/Chat-now/DEPLOYMENT_GUIDE.md)
 - [HEALTH_CHECK.md](file:///C:/Users/rishu/OneDrive/Desktop/Chat-now/HEALTH_CHECK.md)
+- [ROUTING_EXPLAINED.md](file:///C:/Users/rishu/OneDrive/Desktop/Chat-now/ROUTING_EXPLAINED.md)
 
 **Changes**:
 - Completely revamped the troubleshooting section in README
 - Added detailed deployment guide with step-by-step instructions
 - Created health check documentation
 - Added required environment variables section
+- Added detailed explanation of SPA routing issues
 - Improved formatting and organization
 
-### 4. Added Helpful Scripts
+### 4. Fixed SPA Routing Issues
+**File**: [frontend/public/_redirects](file:///C:/Users/rishu/OneDrive/Desktop/Chat-now/frontend/public/_redirects)
+
+**Changes**:
+- Ensured proper formatting of the `_redirects` file to handle client-side routing
+- Added detailed documentation in [ROUTING_EXPLAINED.md](file:///C:/Users/rishu/OneDrive/Desktop/Chat-now/ROUTING_EXPLAINED.md) explaining how SPA routing works
+- Updated deployment guides to emphasize the importance of this file
+
+### 5. Added Helpful Scripts
 **File**: [package.json](file:///C:/Users/rishu/OneDrive/Desktop/Chat-now/package.json)
 
 **Changes**:

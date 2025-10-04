@@ -96,7 +96,12 @@ Before deploying the frontend, update the proxy settings in the root [netlify.to
 4. Set the following build settings:
    - Build command: `npm run build`
    - Publish directory: `build`
-5. Set the following environment variables in Netlify dashboard under "Site settings > Build & deploy > Environment":
+5. **Important**: Ensure the `_redirects` file exists in your `public` folder with the correct format:
+   ```
+   /* /index.html 200
+   ```
+   This file is crucial for React Router to work properly on Netlify.
+6. Set the following environment variables in Netlify dashboard under "Site settings > Build & deploy > Environment":
 
 ```env
 REACT_APP_API_URL=https://your-backend-url.com

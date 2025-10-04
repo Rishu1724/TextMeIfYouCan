@@ -356,8 +356,14 @@ If your deployed application isn't working properly, check these common issues:
 ### 6. 📍 Routing Issues
 **Problem**: Page refresh results in 404 errors
 **Solution**:
-- The `_redirects` file and `netlify.toml` should handle this
-- Ensure these files are in the correct locations
+- The `_redirects` file handles client-side routing for SPAs
+- Ensure the `_redirects` file exists in the `public` folder with the correct format:
+  ```
+  /* /index.html 200
+  ```
+- This file is automatically copied to the build folder during deployment
+- Without this file, Netlify will try to serve actual file paths instead of letting React Router handle routing
+- For more details, see [ROUTING_EXPLAINED.md](ROUTING_EXPLAINED.md)
 
 ### 7. 🔧 Backend Deployment
 **Problem**: API calls fail with 404 or connection errors
