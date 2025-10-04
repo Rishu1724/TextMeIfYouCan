@@ -100,9 +100,12 @@ export const getUserConversations = (userId: string, callback: (conversations: C
     callback(conversations);
   }, (error) => {
     console.error('Error getting user conversations:', error);
+    console.error('User ID:', userId);
+    console.error('Current user:', auth.currentUser);
     // Handle permission errors
     if (error.message.includes('Missing or insufficient permissions')) {
       console.error('Firestore permissions error. Please check your security rules.');
+      console.error('Current user authenticated:', !!auth.currentUser);
     }
   });
 };
@@ -311,7 +314,8 @@ export const searchUsers = async (searchQuery: string): Promise<User[]> => {
         console.log('UID search failed, continuing with other methods');
         // Handle permission errors
         if (uidError.message.includes('Missing or insufficient permissions')) {
-          console.error('Firestore permissions error. Please check your security rules.');
+          console.error('Firestore permissions error during UID search. Please check your security rules.');
+          console.error('Current user authenticated:', !!auth.currentUser);
           throw new Error('Permission denied. Please contact administrator.');
         }
       }
@@ -352,9 +356,12 @@ export const searchUsers = async (searchQuery: string): Promise<User[]> => {
     return Array.from(userMap.values());
   } catch (error: any) {
     console.error('Error searching users:', error);
+    console.error('Search query:', searchQuery);
+    console.error('Current user:', auth.currentUser);
     // Handle permission errors
     if (error.message.includes('Missing or insufficient permissions')) {
-      console.error('Firestore permissions error. Please check your security rules.');
+      console.error('Firestore permissions error during user search. Please check your security rules.');
+      console.error('Current user authenticated:', !!auth.currentUser);
       throw new Error('Permission denied. Please contact administrator.');
     }
     throw error;
@@ -404,6 +411,8 @@ export const deleteMessage = async (messageId: string) => {
     throw error;
   }
 };
+
+
 
 
 

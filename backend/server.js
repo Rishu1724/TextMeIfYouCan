@@ -124,15 +124,13 @@ app.get('/', (req, res) => {
   res.send('Chat App Backend Server is running!');
 });
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  error(`Error occurred: ${err.message}`);
-  res.status(500).json({ message: 'Internal server error' });
-});
-
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ message: 'Route not found' });
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
 });
 
 // API Routes

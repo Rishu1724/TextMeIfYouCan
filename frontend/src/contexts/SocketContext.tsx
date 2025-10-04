@@ -16,6 +16,9 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
+    // Log environment variables for debugging (remove in production)
+    console.log('Socket URL from env:', process.env.REACT_APP_SOCKET_URL);
+    
     // Initialize socket connection with better options
     const newSocket = io(process.env.REACT_APP_SOCKET_URL || 'http://localhost:5000', {
       transports: ['websocket', 'polling'],
@@ -31,7 +34,7 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       rejectUnauthorized: false,
       path: '/socket.io/',
       forceNew: true,
-      secure: false
+      secure: window.location.protocol === 'https:'
     });
     setSocket(newSocket);
 
@@ -51,6 +54,7 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
     newSocket.on('connect_error', (error) => {
       console.error('Socket connection error:', error);
+      console.error('Failed to connect to:', process.env.REACT_APP_SOCKET_URL || 'http://localhost:5000');
       // Try to reconnect on connection error
       setTimeout(() => {
         newSocket.connect();

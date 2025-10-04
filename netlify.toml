@@ -2,14 +2,16 @@
   command = "echo 'No build command needed for root'"
   publish = "."
 
+# Update these redirects with your actual backend deployment URL
+# For example, if your backend is deployed at https://your-backend.herokuapp.com
 [[redirects]]
   from = "/api/*"
-  to = "http://localhost:5000/api/:splat"
+  to = "https://your-backend-deployment-url.com/api/:splat"
   status = 200
   force = true
 
 [[redirects]]
   from = "/socket.io/*"
-  to = "http://localhost:5000/socket.io/:splat"
+  to = "https://your-backend-deployment-url.com/socket.io/:splat"
   status = 200
   force = true

@@ -223,7 +223,7 @@ NODE_ENV=development
 ```
 
 ### Frontend (.env)
-```env
+```
 REACT_APP_API_URL=http://localhost:5000
 REACT_APP_SOCKET_URL=http://localhost:5000
 REACT_APP_FIREBASE_API_KEY=your-api-key
@@ -272,6 +272,37 @@ REACT_APP_FIREBASE_APP_ID=your-app-id
    ```
 2. Deploy the build folder to a static hosting service (e.g., Vercel, Firebase Hosting)
 
+### 🔥 Important Deployment Notes
+
+#### Environment Variables Setup
+For your application to work properly in deployment, you MUST update your environment variables:
+
+1. **For Local Development** (Keep your current .env file):
+   ```env
+   REACT_APP_API_URL=http://localhost:5000
+   REACT_APP_SOCKET_URL=http://localhost:5000
+   REACT_APP_FIREBASE_API_KEY=your-firebase-api-key
+   REACT_APP_FIREBASE_AUTH_DOMAIN=your-firebase-auth-domain
+   REACT_APP_FIREBASE_PROJECT_ID=your-firebase-project-id
+   REACT_APP_FIREBASE_STORAGE_BUCKET=your-firebase-storage-bucket
+   REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your-firebase-messaging-sender-id
+   REACT_APP_FIREBASE_APP_ID=your-firebase-app-id
+   ```
+
+2. **For Production Deployment** (Set in Netlify dashboard):
+   ```env
+   REACT_APP_API_URL=https://your-backend-url.com
+   REACT_APP_SOCKET_URL=https://your-backend-url.com
+   REACT_APP_FIREBASE_API_KEY=your-firebase-api-key
+   REACT_APP_FIREBASE_AUTH_DOMAIN=your-firebase-auth-domain
+   REACT_APP_FIREBASE_PROJECT_ID=your-firebase-project-id
+   REACT_APP_FIREBASE_STORAGE_BUCKET=your-firebase-storage-bucket
+   REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your-firebase-messaging-sender-id
+   REACT_APP_FIREBASE_APP_ID=your-firebase-app-id
+   ```
+
+**Important**: Replace `your-backend-url.com` with your actual deployed backend URL.
+
 ## ✅ Success Criteria
 
 The application should:
@@ -285,6 +316,93 @@ The application should:
 - Update message status (sent, delivered, read) ✅
 - Handle reconnection gracefully ✅
 - Be production-ready and scalable ✅
+
+## 🤖 Troubleshoot Deployment Issues
+
+If your deployed application isn't working properly, check these common issues:
+
+### 1. ❌ Environment Variables Not Set
+**Problem**: Application works locally but not when deployed
+**Solution**: 
+- Ensure all environment variables are set in your Netlify dashboard under 'Site settings > Build & deploy > Environment'
+- Make sure `REACT_APP_API_URL` and `REACT_APP_SOCKET_URL` point to your deployed backend URL, not localhost
+
+### 2. 🔌 CORS Issues
+**Problem**: WebSocket connection fails or API calls are blocked
+**Solution**:
+- Ensure your backend CORS configuration allows your Netlify domain
+- Update `CLIENT_URL` in your backend `.env` to match your Netlify site URL
+- Check that your [netlify.toml](file:///C:/Users/rishu/OneDrive/Desktop/Chat-now/netlify.toml) file has the correct proxy settings for API and Socket.IO calls
+
+### 3. 🔐 Firebase Security Rules
+**Problem**: Firestore permission errors
+**Solution**:
+- Check that your Firestore security rules allow the necessary read/write operations
+- Deploy updated rules with `firebase deploy --only firestore:rules`
+
+### 4. 🌐 Network Configuration
+**Problem**: Real-time features not working
+**Solution**:
+- Ensure your backend server is accessible from the internet
+- Check that WebSocket connections are not being blocked by firewalls
+
+### 5. 📁 Build Issues
+**Problem**: White screen or blank page
+**Solution**:
+- Check Netlify build logs for errors
+- Ensure all dependencies are correctly listed in package.json
+- Verify that the build completes successfully
+
+### 6. 📍 Routing Issues
+**Problem**: Page refresh results in 404 errors
+**Solution**:
+- The `_redirects` file and `netlify.toml` should handle this
+- Ensure these files are in the correct locations
+
+### 7. 🔧 Backend Deployment
+**Problem**: API calls fail with 404 or connection errors
+**Solution**:
+- Your backend must be deployed separately (e.g., to Heroku, Render, or similar)
+- Update the proxy settings in [netlify.toml](file:///C:/Users/rishu/OneDrive/Desktop/Chat-now/netlify.toml) with your actual backend URL
+
+### Debugging Steps:
+1. Check browser console for errors (F12 Developer Tools)
+2. Verify all environment variables are correctly set in Netlify dashboard
+3. Confirm backend server is running and accessible
+4. Check Netlify deploy logs for build errors
+5. Test API endpoints directly with tools like Postman
+6. Verify that your [netlify.toml](file:///C:/Users/rishu/OneDrive/Desktop/Chat-now/netlify.toml) proxy settings point to your actual backend deployment
+
+### Required Environment Variables:
+
+**Frontend (Set in Netlify Dashboard)**:
+```env
+REACT_APP_API_URL=https://your-backend-url.com
+REACT_APP_SOCKET_URL=https://your-backend-url.com
+REACT_APP_FIREBASE_API_KEY=your-firebase-api-key
+REACT_APP_FIREBASE_AUTH_DOMAIN=your-firebase-auth-domain
+REACT_APP_FIREBASE_PROJECT_ID=your-firebase-project-id
+REACT_APP_FIREBASE_STORAGE_BUCKET=your-firebase-storage-bucket
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your-firebase-messaging-sender-id
+REACT_APP_FIREBASE_APP_ID=your-firebase-app-id
+```
+
+**Backend (Set in your backend hosting platform)**:
+```env
+PORT=5000
+FIREBASE_TYPE=service_account
+FIREBASE_PROJECT_ID=your-project-id
+FIREBASE_PRIVATE_KEY_ID=your-private-key-id
+FIREBASE_PRIVATE_KEY=your-private-key
+FIREBASE_CLIENT_EMAIL=your-client-email
+FIREBASE_CLIENT_ID=your-client-id
+FIREBASE_AUTH_URI=https://accounts.google.com/o/oauth2/auth
+FIREBASE_TOKEN_URI=https://oauth2.googleapis.com/token
+FIREBASE_AUTH_PROVIDER_X509_CERT_URL=https://www.googleapis.com/oauth2/v1/certs
+FIREBASE_CLIENT_X509_CERT_URL=your-client-cert-url
+CLIENT_URL=https://your-frontend-netlify-url.netlify.app
+NODE_ENV=production
+```
 
 ## 🤝 Contributing
 
