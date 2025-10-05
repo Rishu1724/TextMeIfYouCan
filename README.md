@@ -364,6 +364,7 @@ If your deployed application isn't working properly, check these common issues:
 - This file is automatically copied to the build folder during deployment
 - Without this file, Netlify will try to serve actual file paths instead of letting React Router handle routing
 - For more details, see [ROUTING_EXPLAINED.md](ROUTING_EXPLAINED.md)
+- For a complete checklist, see [ROUTING_CHECKLIST.md](ROUTING_CHECKLIST.md)
 
 ### 7. 🔧 Backend Deployment
 **Problem**: API calls fail with 404 or connection errors
